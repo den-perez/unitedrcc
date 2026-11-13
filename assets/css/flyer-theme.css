@@ -1,0 +1,1182 @@
+/*
+ * UR&CC flyer theme (Nov 2026)
+ * Layered on top of main.css / clinic-pages.css so the original styles stay untouched.
+ * Matches the 2026 "5 Locations" flyer: Barlow / Barlow Condensed type, navy-sky-red palette,
+ * highway-shield location cards, striped offset blocks and exit-sign style call-outs.
+ * Remove the <link> to this file to return to the previous look.
+ */
+
+/* ---------- Fonts (self-hosted, SIL Open Font License) ---------- */
+@font-face { font-family: "Barlow"; src: url(../fonts/barlow-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(../fonts/barlow-latin-500-normal.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(../fonts/barlow-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url(../fonts/barlow-latin-700-normal.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-500-normal.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-600-italic.woff2) format("woff2"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-800-normal.woff2) format("woff2"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url(../fonts/barlow-condensed-latin-900-normal.woff2) format("woff2"); font-weight: 900; font-display: swap; }
+
+:root {
+	--urcc-navy: #1a2e58;
+	--urcc-navy-2: #1d3769;
+	--urcc-sky: #94dbf4;
+	--urcc-sky-light: #a6e1f6;
+	--urcc-cyan: #168fc4;
+	--urcc-cyan-bright: #18b3e9;
+	--urcc-slate: #576784;
+	--urcc-black: #171717;
+	--urcc-red: #e3121b;
+	--urcc-field: radial-gradient(ellipse 80% 70% at 50% 45%, #fbfbfc 0%, #ececee 55%, #d4d5d9 100%);
+	--urcc-condensed: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+	--urcc-sans: "Barlow", Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Type ---------- */
+body,
+input,
+select,
+textarea {
+	font-family: var(--urcc-sans);
+	letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6,
+h2,
+#homeinfo,
+#dayshours,
+#menu,
+.menuToggle,
+.video-toggle,
+.overlay-btn,
+.copyright,
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button,
+label {
+	font-family: var(--urcc-condensed);
+	letter-spacing: 0.04em;
+}
+
+h2 { font-weight: 900; }
+h3, h4 { font-weight: 700; }
+p { line-height: 1.55; }
+
+/* Section titles: solid rule becomes the flyer's dashed lane line */
+header.major h2,
+header.major h3 {
+	border-bottom: 0;
+	padding-bottom: 0.55em;
+	letter-spacing: 0.06em;
+}
+
+header.major h2::after,
+header.major h3::after {
+	height: 5px;
+	margin-top: 0.5em;
+	background: repeating-linear-gradient(90deg, var(--urcc-sky) 0 28px, transparent 28px 44px);
+}
+
+header.major h2 em {
+	font-style: normal;
+	color: var(--urcc-red);
+}
+
+/* ---------- Banner ---------- */
+/* Kaushan Script, SIL Open Font License (assets/fonts/kaushan-script-OFL.txt) */
+@font-face { font-family: "Kaushan Script"; src: url(../fonts/kaushan-script-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+
+body.landing #cursive {
+	font-family: "Kaushan Script", "Brush Script MT", cursive;
+	font-weight: 400;
+	font-style: normal;
+	text-transform: none;
+	letter-spacing: 0.01em;
+	color: var(--urcc-sky);
+}
+
+/* Written on: main.js wraps each word in .ink-word; a soft-edged mask sweeps left to right like a pen.
+   The padding/negative margin give script swashes room so the mask never clips them. */
+body.motion-ready #banner #cursive.is-inking {
+	animation: none;
+}
+
+#cursive .ink-word {
+	display: inline-block;
+	padding: 0.3em 0.25em;
+	margin: -0.3em -0.25em;
+	-webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+	mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+	-webkit-mask-size: 250% 100%;
+	mask-size: 250% 100%;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-position: 100% 0;
+	mask-position: 100% 0;
+}
+
+#cursive.is-writing .ink-word {
+	animation: ink-write var(--ink-duration) cubic-bezier(0.45, 0.05, 0.55, 0.95) var(--ink-delay) forwards;
+}
+
+@keyframes ink-write {
+	to {
+		-webkit-mask-position: 0 0;
+		mask-position: 0 0;
+	}
+}
+
+body.landing #banner .inner p {
+	font-size: 1.1em;
+	line-height: 1.45;
+}
+
+body.landing #homeinfo {
+	padding: 0.55em 0;
+}
+
+body.landing #homeinfo h3 {
+	margin: 0;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	line-height: 1.35em;
+}
+
+body.landing #homeinfo h3 a {
+	color: var(--urcc-sky);
+}
+
+/* Hours board: clock, hours side by side, live open/closed status */
+body.landing #dayshours.hours-board {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75em 1.1em;
+	width: fit-content;
+	max-width: calc(100% - 2em);
+	margin: 1.1em auto 0.9em;
+	padding: 0.55em 1.1em 0.6em 0.75em;
+	border: 2px solid rgba(148, 219, 244, 0.55);
+	border-radius: 14px;
+	background: rgba(26, 46, 88, 0.82);
+	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	text-align: left;
+	position: relative;
+}
+
+body.landing #dayshours.hours-board::after {
+	content: "";
+	position: absolute;
+	left: 14px;
+	right: 14px;
+	bottom: -2px;
+	height: 4px;
+}
+
+.hours-clock {
+	flex: none;
+	width: 2.6em;
+	height: 2.6em;
+}
+
+.hours-title {
+	margin: 0;
+	padding-right: 1.1em;
+	border-right: 2px dashed rgba(148, 219, 244, 0.5);
+	color: var(--urcc-sky);
+	font-family: var(--urcc-condensed);
+	font-weight: 800;
+	font-size: 0.95em;
+	letter-spacing: 0.12em;
+	line-height: 1.05;
+	text-transform: uppercase;
+}
+
+.hours-title span {
+	display: block;
+	color: #fff;
+	font-size: 1.35em;
+	font-weight: 900;
+	letter-spacing: 0.1em;
+}
+
+.hours-list {
+	display: flex;
+	gap: 1.4em;
+	margin: 0;
+}
+
+.hours-list div {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.05;
+}
+
+.hours-list dt {
+	margin: 0 0 0.15em;
+	color: var(--urcc-sky);
+	font-family: var(--urcc-condensed);
+	font-weight: 700;
+	font-size: 0.85em;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.hours-list dd {
+	margin: 0;
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	font-weight: 900;
+	font-size: 1.6em;
+	letter-spacing: 0.03em;
+	white-space: nowrap;
+}
+
+.hours-status {
+	margin: 0;
+	padding: 0.35em 0.8em;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	font-weight: 600;
+	font-size: 0.9em;
+	letter-spacing: 0.05em;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.hours-status strong {
+	margin-right: 0.3em;
+	font-weight: 900;
+	text-transform: uppercase;
+}
+
+.hours-status::before {
+	content: "";
+	display: inline-block;
+	width: 0.6em;
+	height: 0.6em;
+	margin-right: 0.45em;
+	border-radius: 50%;
+	vertical-align: 0.05em;
+	background: var(--urcc-red);
+}
+
+.hours-status.is-open::before {
+	background: #3ddc84;
+	box-shadow: 0 0 0 3px rgba(61, 220, 132, 0.25);
+}
+
+.hours-status[hidden] {
+	display: none;
+}
+
+@media screen and (max-width: 736px) {
+	body.landing #dayshours.hours-board {
+		flex-wrap: wrap;
+		gap: 0.6em 0.9em;
+		padding: 0.75em 1em 0.85em;
+	}
+
+	.hours-list { gap: 1.1em; }
+	.hours-list dd { font-size: 1.4em; }
+	.hours-title { padding-right: 0; border-right: 0; }
+	.hours-status { flex-basis: 100%; text-align: center; }
+}
+
+.sign-tab {
+	position: absolute;
+	left: 50%;
+	bottom: calc(100% - 7px);
+	transform: translateX(-50%);
+	padding: 0.35em 1em 0.45em;
+	border-radius: 10px 10px 0 0;
+	background: var(--urcc-red);
+	box-shadow: inset 0 0 0 4px var(--urcc-red), inset 0 0 0 7px #fff;
+	clip-path: inset(0 0 7px 0);
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	font-weight: 900;
+	font-size: 0.8em;
+	letter-spacing: 0.18em;
+	line-height: 1.2;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* ---------- Shared flyer card (striped offset block) ---------- */
+.flyer-card {
+	--card-bg: #fff;
+	--card-ring: var(--urcc-navy);
+	--card-hatch: var(--urcc-red);
+	position: relative;
+	isolation: isolate;
+	max-width: 68rem;
+	margin: 2.5em auto 0;
+	padding: 1.75em 2.25em;
+	border-radius: 18px;
+	text-align: left;
+}
+
+.flyer-card::before,
+.flyer-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+}
+
+.flyer-card::before {
+	z-index: -2;
+	transform: translate(12px, 12px);
+	background: repeating-linear-gradient(-45deg, var(--card-hatch) 0 5px, transparent 5px 12px);
+}
+
+.flyer-card::after {
+	z-index: -1;
+	background: var(--card-bg);
+	box-shadow: inset 0 0 0 4px var(--card-ring), 0 10px 26px rgba(10, 20, 45, 0.3);
+}
+
+.flyer-card--navy {
+	--card-bg: var(--urcc-navy-2);
+	--card-ring: rgba(148, 219, 244, 0.35);
+	--card-hatch: var(--urcc-cyan);
+	color: #fff;
+}
+
+.flyer-card--white {
+	color: var(--urcc-navy);
+}
+
+/* ---------- Services: Hands On Treatment ---------- */
+.treatments {
+	margin: 2.5em 2em 0;
+}
+
+@media screen and (min-width: 1200px) {
+	.treatments { margin-left: auto; margin-right: auto; }
+}
+
+.treatments h3 {
+	margin: 0 0 0.9em;
+	padding-bottom: 0.55em;
+	color: #fff;
+	font-weight: 900;
+	font-size: 1.75em;
+	letter-spacing: 0.06em;
+	line-height: 1.1;
+	background: repeating-linear-gradient(90deg, var(--urcc-sky) 0 28px, transparent 28px 44px) left bottom / 100% 5px no-repeat;
+}
+
+.treat-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(5, auto);
+	grid-auto-flow: column;
+	gap: 0.85em 2.5em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.treat-list li {
+	display: flex;
+	align-items: center;
+	gap: 0.75em;
+	padding: 0;
+	font-size: 1.1em;
+	line-height: 1.3;
+}
+
+.treat-list strong {
+	margin-right: 0.3em;
+	color: var(--urcc-sky);
+	font-family: var(--urcc-condensed);
+	font-weight: 800;
+	font-size: 1.2em;
+	letter-spacing: 0.02em;
+}
+
+.treat-num {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 1.9em;
+	height: 1.9em;
+	border-radius: 50%;
+	background: var(--urcc-red);
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	font-weight: 900;
+	font-size: 0.95em;
+	letter-spacing: 0;
+}
+
+@media screen and (max-width: 736px) {
+	.treatments { margin: 2em 1em 0; padding: 1.4em 1.4em 1.5em; }
+	.treat-list { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+}
+
+/* ---------- Benefits & Services ---------- */
+#benefits {
+	padding: 3em 0 3.5em;
+	background: var(--urcc-field);
+	color: var(--urcc-navy);
+}
+
+#benefits header.major h2 {
+	color: var(--urcc-navy);
+}
+
+#benefits header.major h2::after {
+	background: repeating-linear-gradient(90deg, var(--urcc-red) 0 28px, transparent 28px 44px);
+}
+
+.benefits-card {
+	margin: 1.5em 2em 0;
+}
+
+@media screen and (min-width: 1200px) {
+	.benefits-card { margin-left: auto; margin-right: auto; }
+}
+
+.benefit-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.9em 2.5em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.benefit-list li {
+	position: relative;
+	padding: 0.1em 0 0 2.1em;
+	font-size: 1.15em;
+	line-height: 1.35;
+	color: var(--urcc-navy);
+}
+
+.benefit-list li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.15em;
+	width: 1.45em;
+	height: 1.45em;
+	border-radius: 50%;
+	background:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%2394dbf4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 80% no-repeat,
+		var(--urcc-navy);
+}
+
+.benefit-list strong {
+	color: var(--urcc-navy);
+	font-weight: 700;
+}
+
+@media screen and (max-width: 736px) {
+	.benefits-card { margin: 1.5em 1em 0; padding: 1.4em 1.4em; }
+	.benefit-list { grid-template-columns: 1fr; }
+}
+
+/* Help line: red exit-sign call-out */
+.help-sign {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.2em 0.9em;
+	width: fit-content;
+	max-width: calc(100% - 2em);
+	margin: 3.4em auto 0;
+	padding: 0.85em 1.8em 0.8em;
+	border: 0;
+	border-radius: 16px;
+	background: var(--urcc-red);
+	box-shadow: inset 0 0 0 4px var(--urcc-red), inset 0 0 0 8px #fff, 0 10px 22px rgba(0, 0, 0, 0.3);
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: transform 150ms ease;
+}
+
+.help-sign:hover,
+.help-sign:focus-visible {
+	transform: translateY(-2px);
+	color: #fff;
+}
+
+.help-sign:focus-visible {
+	outline: 3px solid var(--urcc-navy);
+	outline-offset: 4px;
+}
+
+.help-sign .sign-tab {
+	bottom: calc(100% - 8px);
+	box-shadow: inset 0 0 0 4px var(--urcc-red), inset 0 0 0 8px #fff;
+	clip-path: inset(0 0 8px 0);
+}
+
+.help-label {
+	font-weight: 800;
+	font-size: 1.25em;
+	letter-spacing: 0.05em;
+}
+
+.help-phone {
+	font-weight: 900;
+	font-size: 2em;
+	letter-spacing: 0.03em;
+	line-height: 1.1;
+}
+
+/* ---------- Reasons to visit ---------- */
+#visit .features li::before {
+	color: var(--urcc-sky);
+}
+
+#visit .reasonwrapper h3 {
+	letter-spacing: 0.08em;
+}
+
+/* ---------- Services spotlights ---------- */
+#services .spotlight h3 {
+	color: var(--urcc-sky);
+	font-weight: 800;
+	letter-spacing: 0.06em;
+}
+
+/* Split panels: photo fills half the row to the page edge, text in the other half; sides alternate.
+   Photos are cropped by object-fit, so each gets a focal point. */
+#services .spotlight {
+	align-items: stretch;
+	min-height: 30rem;
+}
+
+#services .spotlight .image {
+	position: relative;
+	flex: none;
+	width: 50%;
+	padding: 0;
+	overflow: hidden;
+}
+
+#services .spotlight .image img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#services .spotlight:nth-of-type(1) .image img { object-position: 50% 12%; }
+#services .spotlight:nth-of-type(3) .image img { object-position: 65% 35%; }
+#services .spotlight:nth-of-type(4) .image img { object-position: 45% 50%; }
+#services .spotlight:nth-of-type(5) .image img { object-position: 40% 60%; }
+
+#services .spotlight .content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 50%;
+	max-width: none;
+	padding: clamp(2rem, 5vw, 5rem);
+	text-align: left;
+}
+
+#services .spotlight .content p {
+	max-width: 34em;
+	margin-bottom: 0;
+}
+
+/* Phones and small tablets: photo on top, text below */
+@media screen and (max-width: 736px) {
+	#services .spotlight,
+	#services .spotlight:nth-child(2n) {
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	#services .spotlight .image,
+	#services .spotlight .content {
+		width: 100%;
+	}
+
+	#services .spotlight .image {
+		aspect-ratio: 16 / 10;
+	}
+
+	#services .spotlight .content {
+		padding: 2rem 1.5rem 2.5rem;
+	}
+}
+
+/* ---------- Location cards: highway signs ---------- */
+#locations header.major h2 {
+	color: var(--urcc-navy);
+}
+
+#locations header.major h2::after {
+	background: repeating-linear-gradient(90deg, var(--urcc-red) 0 28px, transparent 28px 44px);
+}
+
+#all_clinics > p {
+	font-family: var(--urcc-condensed);
+	font-weight: 600;
+	color: var(--urcc-slate);
+}
+
+.map-card {
+	--card-bg: var(--urcc-navy-2);
+	--card-ring: rgba(148, 219, 244, 0.35);
+	--card-hatch: var(--urcc-red);
+	--card-accent: var(--urcc-sky);
+	isolation: isolate;
+	background: transparent !important;
+	font-family: var(--urcc-condensed);
+	letter-spacing: 0.03em;
+}
+
+.map-card::before,
+.map-card::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.map-card::before {
+	z-index: -2;
+	transform: translate(7px, 7px);
+	background: repeating-linear-gradient(-45deg, var(--card-hatch) 0 3px, transparent 3px 8px);
+}
+
+.map-card::after {
+	z-index: -1;
+	background: var(--card-bg);
+	box-shadow: inset 0 0 0 3px var(--card-ring), 0 8px 18px rgba(10, 20, 45, 0.3);
+}
+
+#mapNEast { --card-bg: var(--urcc-black); --card-ring: rgba(255, 255, 255, 0.18); }
+#mapNorth { --card-bg: linear-gradient(160deg, var(--urcc-cyan-bright), var(--urcc-cyan)); --card-ring: rgba(255, 255, 255, 0.35); --card-hatch: var(--urcc-navy); --card-accent: var(--urcc-navy); }
+#mapNWest { --card-bg: var(--urcc-sky-light); --card-ring: var(--urcc-navy); --card-hatch: var(--urcc-navy); --card-accent: var(--urcc-cyan); color: var(--urcc-navy) !important; }
+#mapSWest { --card-bg: var(--urcc-slate); --card-ring: rgba(255, 255, 255, 0.25); --card-hatch: var(--urcc-sky); }
+#mapSouth { --card-bg: var(--urcc-navy-2); }
+
+#all_clinics .map-card h2 {
+	font-family: var(--urcc-condensed);
+	font-weight: 900;
+	font-size: 1.45em;
+	letter-spacing: 0.04em;
+	padding-left: 1.6em;
+}
+
+#all_clinics .map-card h3 {
+	color: var(--card-accent);
+	font-family: var(--urcc-condensed);
+	font-weight: 600;
+	font-style: italic;
+	text-transform: none;
+	font-size: 1.1em;
+	padding-left: 1.75em;
+	padding-bottom: 0.45em;
+	margin-bottom: 0.5em;
+	background: repeating-linear-gradient(90deg, var(--card-accent) 0 14px, transparent 14px 22px) left bottom / 100% 3px no-repeat;
+}
+
+#mapNWest h2,
+#mapNWest a {
+	color: var(--urcc-navy) !important;
+}
+
+.map-card .map_links {
+	font-weight: 600;
+	font-size: 1.15em;
+	line-height: 1.25;
+}
+
+.map-card p,
+.map-card a {
+	font-weight: 600;
+}
+
+.map-card abbr {
+	color: var(--card-accent);
+	font-weight: 900;
+	text-decoration: none;
+	cursor: help;
+}
+
+#mapNorth abbr {
+	color: #fff;
+}
+
+#all_clinics #mapNorth > .clinic-marker,
+#all_clinics #mapNEast > .clinic-marker,
+#all_clinics #mapNWest > .clinic-marker,
+#all_clinics #mapSouth > .clinic-marker,
+#all_clinics #mapSWest > .clinic-marker {
+	top: 0.45em;
+	right: 0.45em;
+}
+
+#all_clinics .map-card h2 {
+	padding-right: 1.5em;
+}
+
+.map-shield {
+	position: absolute;
+	top: -1.5em;
+	left: -1.3em;
+	width: 3.3em;
+	height: auto;
+	filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.4));
+	pointer-events: none;
+}
+
+/* ---------- Footer & contact ---------- */
+#footer .copyright li {
+	letter-spacing: 0.12em;
+}
+
+#contact_header h2 {
+	letter-spacing: 0.08em;
+}
+
+/* ---------- Homepage header: same bar as the clinic pages ----------
+ * Navy bar, larger logo, condensed caps and the dashed lane stripe. Over the banner (.alt) it stays
+ * transparent with no logo or stripe, since the banner already shows the big logo.
+ */
+html {
+	scroll-padding-top: 6.5rem; /* section jumps land below the fixed header */
+}
+
+#header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	height: auto;
+	padding: 1rem clamp(1rem, 4vw, 3rem);
+	background: var(--urcc-navy);
+	line-height: normal;
+}
+
+#header::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 6px;
+	background: repeating-linear-gradient(90deg, var(--urcc-sky) 0 60px, transparent 60px 80px);
+	transition: opacity 0.2s ease;
+}
+
+#header.alt {
+	background: transparent;
+}
+
+#header.alt::after {
+	opacity: 0;
+}
+
+#header h1,
+#header nav {
+	position: static;
+	height: auto;
+	margin: 0;
+	line-height: 0;
+}
+
+#header h1 a {
+	height: auto;
+	line-height: 0;
+}
+
+#headerlogo {
+	display: block;
+	width: min(11rem, 38vw);
+	height: auto;
+	padding-top: 0;
+}
+
+#header nav > ul > li > a.menuToggle {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0;
+	color: #fff;
+	font-family: var(--urcc-condensed);
+	font-size: 1.1rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	line-height: 1.2;
+}
+
+#header nav > ul > li > a.menuToggle::after {
+	display: none;
+}
+
+/* ---------- Clinic detail pages ---------- */
+.clinic-site-header {
+	background: var(--urcc-navy);
+	border-bottom: 0;
+	box-shadow: 0 6px 0 -1px transparent;
+	font-family: var(--urcc-condensed);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.clinic-site-header::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -6px;
+	height: 6px;
+	background: repeating-linear-gradient(90deg, var(--urcc-sky) 0 60px, transparent 60px 80px);
+}
+
+.clinic-page h1 {
+	display: flex;
+	align-items: center;
+	gap: 0.4em;
+	color: var(--urcc-navy);
+	font-family: var(--urcc-condensed);
+	font-weight: 900;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
+.clinic-shield {
+	width: 1.35em;
+	height: auto;
+	filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.clinic-subtitle {
+	color: var(--urcc-cyan);
+	font-family: var(--urcc-condensed);
+	font-weight: 600;
+	font-style: italic;
+	padding-bottom: 0.6em;
+	background: repeating-linear-gradient(90deg, var(--urcc-red) 0 28px, transparent 28px 44px) left bottom / min(26rem, 100%) 4px no-repeat;
+}
+
+.clinic-page .clinic-contact {
+	position: relative;
+	isolation: isolate;
+	border: 0;
+	background: transparent;
+	color: var(--urcc-navy);
+}
+
+.clinic-page .clinic-contact::before,
+.clinic-page .clinic-contact::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.clinic-page .clinic-contact::before {
+	z-index: -2;
+	transform: translate(10px, 10px);
+	background: repeating-linear-gradient(-45deg, var(--urcc-red) 0 4px, transparent 4px 10px);
+}
+
+.clinic-page .clinic-contact::after {
+	z-index: -1;
+	background: #fff;
+	box-shadow: inset 0 0 0 3px var(--urcc-navy), 0 8px 20px rgba(10, 20, 45, 0.18);
+}
+
+.clinic-page h2 {
+	color: var(--urcc-navy);
+	font-family: var(--urcc-condensed);
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.clinic-actions a {
+	border-color: var(--urcc-navy);
+	color: var(--urcc-navy);
+	font-family: var(--urcc-condensed);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.clinic-actions a:hover {
+	background: var(--urcc-navy);
+	color: #fff;
+}
+
+.clinic-actions a[href^="tel"] {
+	border-color: var(--urcc-red);
+	background: var(--urcc-red);
+	color: #fff;
+}
+
+.clinic-actions a[href^="tel"]:hover {
+	background: #b80e15;
+	border-color: #b80e15;
+}
+
+/* Other locations: each link is that clinic's sign from the homepage map */
+.clinic-other {
+	--sign-bg: var(--urcc-navy-2);
+	--sign-ring: rgba(148, 219, 244, 0.35);
+	--sign-hatch: var(--urcc-red);
+	--sign-ink: #fff;
+	--sign-area: var(--urcc-sky);
+	position: relative;
+	isolation: isolate;
+	color: var(--sign-ink);
+	font-family: var(--urcc-condensed);
+	letter-spacing: 0.03em;
+}
+
+.clinic-other::before,
+.clinic-other::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.clinic-other::before {
+	z-index: -2;
+	transform: translate(6px, 6px);
+	background: repeating-linear-gradient(-45deg, var(--sign-hatch) 0 3px, transparent 3px 8px);
+}
+
+.clinic-other::after {
+	z-index: -1;
+	background: var(--sign-bg);
+	box-shadow: inset 0 0 0 3px var(--sign-ring), 0 8px 18px rgba(10, 20, 45, 0.25);
+}
+
+.clinic-other img {
+	filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.clinic-other strong {
+	font-weight: 800;
+	font-size: 1.2rem;
+	text-transform: uppercase;
+}
+
+.clinic-other small {
+	color: var(--sign-area);
+	font-weight: 600;
+	font-style: italic;
+}
+
+.clinic-other:focus-visible {
+	outline: 3px solid var(--urcc-navy);
+	outline-offset: 4px;
+}
+
+.clinic-other-northeast { --sign-bg: var(--urcc-black); --sign-ring: rgba(255, 255, 255, 0.18); }
+.clinic-other-north { --sign-bg: linear-gradient(160deg, var(--urcc-cyan-bright), var(--urcc-cyan)); --sign-ring: rgba(255, 255, 255, 0.35); --sign-hatch: var(--urcc-navy); --sign-ink: var(--urcc-navy); --sign-area: var(--urcc-navy); }
+.clinic-other-northwest { --sign-bg: var(--urcc-sky-light); --sign-ring: var(--urcc-navy); --sign-hatch: var(--urcc-navy); --sign-ink: var(--urcc-navy); --sign-area: var(--urcc-navy); }
+.clinic-other-southwest { --sign-bg: var(--urcc-slate); --sign-ring: rgba(255, 255, 255, 0.25); --sign-hatch: var(--urcc-sky); --sign-area: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+	.help-sign { transition: none; }
+}
+
+/* Keep the map cards as compact as the originals on small screens */
+@media screen and (max-width: 736px) {
+	#all_clinics .map-card h3 {
+		padding-bottom: 0.25em;
+		margin-bottom: 0.3em;
+		background-size: 100% 2px;
+	}
+
+	#all_clinics .map-card h2 {
+		padding-left: 1.4em;
+		padding-right: 1.9em;
+	}
+
+	.map-card {
+		padding-top: 0.75em !important;
+		padding-bottom: 0.35em !important;
+	}
+
+	.map-card::before {
+		transform: translate(4px, 4px);
+	}
+
+	.map-shield {
+		width: 2.6em;
+		top: -1.2em;
+		left: -0.35em;
+	}
+}
+
+/* Beat the banner's paragraph spacing inside the hours board */
+body.landing #banner #dayshours p {
+	margin: 0;
+	font-size: inherit;
+}
+
+body.landing #banner #dayshours .hours-title {
+	font-size: 0.95em;
+	line-height: 1.05;
+	text-align: left;
+}
+
+body.landing #banner #dayshours .hours-status {
+	font-size: 0.9em;
+	line-height: 1.2;
+}
+
+/* ---------- Motion (Nov 2026) ----------
+ * 1. Locations: each sign card is posted as it scrolls into view (main.js sets --sign-delay so cards
+ *    arriving together go top to bottom, after the map wipe), and its highway shield lands on the sign.
+ * 2. Home <-> clinic page: the clicked clinic's shield travels between the map card and the page heading
+ *    (cross-document view transition; browsers without support just navigate normally).
+ * 3. Clinic photo viewer: opens with a short scale-and-fade, closes faster.
+ * Cards and shields use the individual `translate` / `scale` properties so they never fight positioning
+ * transforms. Content is only hidden under .motion-ready, which main.js sets when motion is allowed.
+ */
+#mapNEast { --shield-vt: shield-northeast; }
+#mapNorth { --shield-vt: shield-north; }
+#mapNWest { --shield-vt: shield-northwest; }
+#mapSouth { --shield-vt: shield-south; }
+#mapSWest { --shield-vt: shield-southwest; }
+
+.motion-ready #all_clinics .map-card {
+	opacity: 0;
+	translate: 0 -0.9rem;
+	transition:
+		opacity 320ms ease-out,
+		translate 560ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-ready #all_clinics .map-shield {
+	opacity: 0;
+	scale: 1.4;
+	transition:
+		opacity 200ms ease-out,
+		scale 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-ready #all_clinics .map-card.show,
+.motion-ready #all_clinics .map-card.show .map-shield {
+	opacity: 1;
+	translate: none;
+	scale: none;
+	transition-delay: var(--sign-delay, 0ms);
+}
+
+.motion-ready #all_clinics .map-card.show .map-shield {
+	transition-delay: calc(var(--sign-delay, 0ms) + 140ms);
+}
+
+/* Keyboard users who tab into the map before it reveals see the cards immediately */
+.motion-ready #locations .inner:focus-within .map-card,
+.motion-ready #locations .inner:focus-within .map-shield {
+	opacity: 1;
+	translate: none;
+	scale: none;
+	transition: none;
+}
+
+/* Shared shield: named only once the cards are visible, so a return trip never flies into a hidden card */
+body:not(.motion-ready) #all_clinics .map-shield,
+#all_clinics .map-card.show .map-shield {
+	view-transition-name: var(--shield-vt);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@view-transition {
+		navigation: auto;
+	}
+
+	::view-transition-group(*) {
+		animation-duration: 460ms;
+		animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 220ms;
+	}
+
+	/* Open animates everywhere @starting-style works; close animates only where the dialog can stay
+	   in the top layer while fading (overlay support), otherwise it closes instantly. */
+	.clinic-lightbox,
+	.clinic-lightbox::backdrop {
+		opacity: 0;
+	}
+
+	.clinic-lightbox {
+		scale: 0.96;
+	}
+
+	.clinic-lightbox[open],
+	.clinic-lightbox[open]::backdrop {
+		opacity: 1;
+		scale: none;
+		transition:
+			opacity 220ms ease-out,
+			scale 300ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	@supports (overlay: auto) {
+		.clinic-lightbox,
+		.clinic-lightbox::backdrop {
+			transition:
+				opacity 150ms ease-in,
+				scale 150ms ease-in,
+				display 150ms allow-discrete,
+				overlay 150ms allow-discrete;
+		}
+
+		.clinic-lightbox[open],
+		.clinic-lightbox[open]::backdrop {
+			transition:
+				opacity 220ms ease-out,
+				scale 300ms cubic-bezier(0.16, 1, 0.3, 1),
+				display 300ms allow-discrete,
+				overlay 300ms allow-discrete;
+		}
+	}
+
+	@starting-style {
+		.clinic-lightbox[open],
+		.clinic-lightbox[open]::backdrop {
+			opacity: 0;
+		}
+
+		.clinic-lightbox[open] {
+			scale: 0.96;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.motion-ready #all_clinics .map-card,
+	.motion-ready #all_clinics .map-shield {
+		opacity: 1;
+		translate: none;
+		scale: none;
+		transition: none;
+	}
+}
